@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Remove PID file if it was not properly removed on the last stop
-PLEX_PID="/home/Library/Application Support/Plex Media Server/plexmediaserver.pid"
+PLEX_PID="/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/plexmediaserver.pid"
 if [ -f "$PLEX_PID" ]; then
   rm "$PLEX_PID"
 fi

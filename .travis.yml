@@ -1,0 +1,16 @@
+language: bash
+services: docker
+sudo: required
+
+install:
+  - docker run --rm --privileged multiarch/qemu-user-static:register
+
+script:
+  - curl -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/v2.6.0/qemu-arm-static.tar.gz && tar xzf qemu-arm-static.tar.gz
+  - docker build -t napnap75/rpi-plex:latest .
+  - docker run --rm napnap75/rpi-plex:latest uname -a
+  - docker images
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push napnap75/rpi-plex:latest
