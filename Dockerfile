@@ -11,7 +11,7 @@ ENTRYPOINT ["/usr/sbin/tini", "--"]
 
 # Load Plex
 RUN apt-get update \
-	&& apt-get upgrade \
+	&& apt-get -y upgrade \
 	&& apt-get -y install wget apt-transport-https \
 	&& wget -O - https://dev2day.de/pms/dev2day-pms.gpg.key | apt-key add - \
 	&& echo "deb https://dev2day.de/pms/ jessie main" >> /etc/apt/sources.list.d/pms.list \
