@@ -33,5 +33,8 @@ EXPOSE 32400 1900/udp 32469 3005 5353/udp 8324 32410/udp 32412/udp 32413/udp 324
 
 # Add the custom init script
 ADD start_pms.sh /usr/bin/start_pms.sh
-RUN chmod +x /usr/bin/start_pms.sh
 CMD /usr/bin/start_pms.sh
+
+# Add an health check
+ADD healthcheck.sh /usr/bin/healthcheck.sh
+HEALTHCHECK --interval=200s --timeout=100s CMD /usr/bin/healthcheck.sh || exit 1

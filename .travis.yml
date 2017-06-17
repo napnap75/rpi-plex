@@ -2,15 +2,24 @@ language: bash
 services: docker
 sudo: required
 
+# Install QEmu to allow Travis (on x86 systems) to build ARM images
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
-
-script:
   - curl -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/v2.6.0/qemu-arm-static.tar.gz && tar xzf qemu-arm-static.tar.gz
-  - docker build -t napnap75/rpi-plex:latest .
-  - docker run --rm napnap75/rpi-plex:latest uname -a
-  - docker images
 
+# Build and test the image
+script:
+  - docker build -t napnap75/rpi-plex:latest .
+  - docker images
+  - docker run --name plex -d -p 32400:32400 napnap75/rpi-plex:latest
+  - while [ "$(docker inspect -f '{{.State.Health.Status}}' plex)" != "healthy" ] ; do docker ps ; sleep 60 ; done
+  
+# If successful, push the images
 after_success:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push napnap75/rpi-plex:latest
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" ;
+      docker push napnap75/rpi-plex:latest ;
+      VERSION=$(curl --silent "http://localhost:32400/identity" | grep "<MediaContainer" | sed 's/.*version="\([0-9]\+.[0-9]\+.[0-9]\+.[0-9]\+\).*/\1/') ;
+      docker tag napnap75/rpi-plex:latest napnap75/rpi-plex:${VERSION} ;
+      docker push napnap75/rpi-plex:${VERSION} ;
+    fi
