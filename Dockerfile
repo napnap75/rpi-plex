@@ -1,4 +1,4 @@
-FROM armhf/debian:jessie
+FROM arm32v7/debian:jessie
 
 # Install QEmu to be able to build this image in Travis CI
 COPY qemu-arm-static /usr/bin/qemu-arm-static
