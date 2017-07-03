@@ -2,6 +2,11 @@ language: bash
 services: docker
 sudo: required
 
+notifications:
+  slack:
+    secure: ozq2aZwIguIrz55PPY6qiFKYW/VxyQfZOogufNyA64tk7WC62IlzzpyDxpE8pVMvqsqSB51Hjani2QDx3wFh22frughYg8vu8yBmqWUqTyVDirBPayMLLlkwMhsxMr1E1wdqp+0kOUehaZOCLTX6BW2Py77uv+8+CehQ/nhdvO5mTjArMYIF50F6T83Tq2ruMwIMg9UNDs/6ghwDU9OUBYVj9KFegwAwz+NYpItrz4br2RzELD005rQO5YSALbyZAg3o+aJHG5Of87IXPdP5CteNuopsKOtXAWOA4l64r5fO7yMoCfZYVUS9p/dRrHlBH22nFer9jWiazaFW0Jik3Xct3qhyvkx3TkbyJOaOaqB+MNVVwa5lPkyC8t68u4IpSCvQb8uCqF3P5M+E0OCicM14hnmyfMzq73AKgJRp2+FG+08Sf1t0KSgZW5N6uAxhgeEYJQVuUVcnYjKxUAkmKsqY02+0q/NW3yrr/EhPLgwybhSHohV4FSgTHAozl8jtjSVIKcDScv53ifjG+9q1pl972HaNp3JketEQHHJhXC4sODw4K4E7p23lFqfKQSr/XrLljQIGSaqps99Kfxdkb44QGoiweiTjC51HapFCNm/gyEgRBSKLwcFjNH7mBR0r1w7WtCDkkGAytxKhTSA94WucIU0jkx2JwsK2ZpUyuu4=
+    on_success: change
+
 # Install QEmu to allow Travis (on x86 systems) to build ARM images
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
