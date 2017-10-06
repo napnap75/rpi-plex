@@ -21,7 +21,7 @@ RUN apt-get update \
 	&& apt-get -y autoremove \
 	&& apt-get -y clean \
 	&& rm -fr /var/lib/apt/lists/* \
-	&& groupadd -g 1500 plex \
+	&& groupmod -g 1500 plex \
 	&& usermod -u 1500 -g plex plex \
 	&& chown plex:plex /var/lib/plexmediaserver
 
